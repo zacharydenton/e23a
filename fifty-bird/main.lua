@@ -43,6 +43,18 @@ function love.load()
   hugeFont = love.graphics.newFont('flappy.ttf', 56)
   love.graphics.setFont(flappyFont)
 
+  sounds = {
+    ['jump'] = love.audio.newSource('jump.wav', 'static'),
+    ['explosion'] = love.audio.newSource('explosion.wav', 'static'),
+    ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
+    ['score'] = love.audio.newSource('score.wav', 'static'),
+
+    -- https://freesound.org/people/xsgianni/sounds/388079/
+    ['music'] = love.audio.newSource('marios_way.mp3', 'static')
+  }
+  sounds['music']:setLooping(true)
+  sounds['music']:play()
+
   math.randomseed(os.time())
 
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
