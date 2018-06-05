@@ -3,6 +3,7 @@ Class = require 'class'
 
 require 'Bird'
 require 'Pipe'
+require 'PipePair'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -28,6 +29,7 @@ local bird = Bird()
 
 local pipes = {}
 local pipeTimer = 0
+local lastY = -PIPE_HEIGHT + math.random(80) + 20
 
 function love.load()
   love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -66,8 +68,8 @@ function love.draw()
 
   love.graphics.draw(background, -backgroundScroll, 0)
 
-  for k, pipe in pairs(pipes) do
-    pipe:render()
+  for k, pipePair in pairs(pipes) do
+    pipePair:render()
   end
 
   love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
@@ -88,13 +90,21 @@ function love.update(dt)
 
   pipeTimer = pipeTimer + dt
   if pipeTimer > 2 then
-    table.insert(pipes, Pipe())
+    local y = math.max(-PIPE_HEIGHT + 10, math.min(lastY +
+    math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+    lastY = y
+
+    table.insert(pipes, PipePair(y))
     pipeTimer = 0
   end
 
-  for k, pipe in pairs(pipes) do
-    pipe:update(dt)
-    if pipe.x < -pipe.width then
+  for k, pipePair in pairs(pipes) do
+    pipePair:update(dt)
+  end
+
+
+  for k, pipePair in pairs(pipes) do
+    if pipePair.remove then
       table.remove(pipes, k)
     end
   end
