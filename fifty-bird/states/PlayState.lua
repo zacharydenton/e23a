@@ -16,7 +16,27 @@ function PlayState:init()
   self.lastY = -PIPE_HEIGHT + math.random(80) + 20
 end
 
+function PlayState:enter(params)
+  if params then
+    self.bird = params.bird
+    self.pipePairs = params.pipePairs
+    self.timer = params.timer
+    self.score = params.score
+    self.lastY = params.lastY
+  end
+end
+
 function PlayState:update(dt)
+  if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    gStateMachine:change('pause', {
+      bird = self.bird,
+      pipePairs = self.pipePairs,
+      timer = self.timer,
+      score = self.score,
+      lastY = self.lastY
+    })
+  end
+
   self.timer = self.timer + dt
 
   if self.timer > SPAWN_INTERVAL then
