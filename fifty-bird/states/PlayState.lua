@@ -28,7 +28,7 @@ function PlayState:update(dt)
     table.insert(self.pipePairs, PipePair(y))
 
     -- reset timer
-    self.timer = 0
+    self.timer = 0.5 * math.random()
   end
 
   for k, pair in pairs(self.pipePairs) do

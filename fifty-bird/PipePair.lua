@@ -6,9 +6,10 @@ function PipePair:init(y)
   self.x = VIRTUAL_WIDTH + 32
   self.y = y
 
+  local gap_randomness = math.random(10)
   self.pipes = {
-    ['upper'] = Pipe('top', self.y),
-    ['lower'] = Pipe('bottom', self.y + PIPE_HEIGHT + GAP_HEIGHT)
+    ['upper'] = Pipe('top', self.y - gap_randomness),
+    ['lower'] = Pipe('bottom', self.y + PIPE_HEIGHT + GAP_HEIGHT + gap_randomness)
   }
 
   -- whether the pipe is ready to be removed
