@@ -9,6 +9,8 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
+GRAVITY = 20
+
 local background = love.graphics.newImage('background.png')
 local backgroundScroll = 0
 
@@ -33,6 +35,8 @@ function love.load()
     fullscreen = false,
     resizable = true
   })
+
+  love.keyboard.keysPressed = {}
 end
 
 function love.resize(width, height)
@@ -40,9 +44,15 @@ function love.resize(width, height)
 end
 
 function love.keypressed(key)
+  love.keyboard.keysPressed[key] = true
+
   if key == 'escape' then
     love.event.quit()
   end
+end
+
+function love.keyboard.wasPressed(key)
+  return love.keyboard.keysPressed[key]
 end
 
 function love.draw()
@@ -59,6 +69,11 @@ end
 function love.update(dt)
   backgroundScroll = (backgroundScroll + dt * BACKGROUND_SCROLL_SPEED)
       % BACKGROUND_LOOPING_POINT
+
   groundScroll = (groundScroll + dt * GROUND_SCROLL_SPEED)
       % GROUND_LOOPING_POINT
+
+  bird:update(dt)
+
+  love.keyboard.keysPressed = {}
 end
