@@ -90,6 +90,12 @@ function love.keyboard.wasPressed(key)
   return love.keyboard.keysPressed[key]
 end
 
+function love.mousepressed(x, y, button, istouch)
+  if button == 1 then
+    love.keyboard.keysPressed['space'] = true
+  end
+end
+
 function love.draw()
   push:start()
 
